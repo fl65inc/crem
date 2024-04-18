@@ -23,7 +23,8 @@ def fragment_mol(smi, smi_id='', mode=0):
             frags += rdMMPA.FragmentMol(mol, pattern="[!#1]!@!=!#[!#1]", maxCuts=3, resultsAsMols=False, maxCutBonds=30)
             frags = set(frags)
             for core, chains in frags:
-                output = '%s,%s,%s,%s\n' % (smi, smi_id, core, chains)
+                output = '%s\t%s\t%s\t%s\n' % (smi, smi_id, core, chains) #montai
+                #output  = '%s,%s,%s,%s\n' % (smi, smi_id, core, chains)
                 outlines.add(output)
         # hydrogen splitting
         if mode == 1 or mode == 2:
@@ -32,7 +33,8 @@ def fragment_mol(smi, smi_id='', mode=0):
             if n < 60:
                 frags = rdMMPA.FragmentMol(mol, pattern="[#1]!@!=!#[!#1]", maxCuts=1, resultsAsMols=False, maxCutBonds=100)
                 for core, chains in frags:
-                    output = '%s,%s,%s,%s\n' % (smi, smi_id, core, chains)
+                    output = '%s\t%s\t%s\t%s\n' % (smi, smi_id, core, chains) #montai
+                    #output = '%s,%s,%s,%s\n' % (smi, smi_id, core, chains)
                     outlines.add(output)
     return outlines
 

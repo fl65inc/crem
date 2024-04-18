@@ -68,11 +68,12 @@ def main(input_fname, output_fname, radius, counts, ncpu, verbose):
         with open(input_fname) as f:
             for i, line in enumerate(f):
                 if counts:
-                    tmp = re.split(',| ', line.strip())
+                    tmp = re.split(',| ', line.strip()) # this is not changed now, because counts is false
                     tmp.append(tmp.pop(0))  # move the first item to the end
                     buf.append(tuple(tmp))
                 else:
-                    buf.append(tuple(line.strip().split(",")))
+                    buf.append(tuple(line.strip().split(","))) 
+                    #buf.append(tuple(line.strip().split("\t"))) #in montai's fork
                 if (i + 1) % 100000 == 0:
                     adata = __get_additional_data((items[:2] for items in buf), pool)
                     if counts:

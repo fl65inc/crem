@@ -27,7 +27,7 @@ fragmentation -i $INPUT_FILE -o $OUTPUT_DIR/frags.txt -c $CPU -v
 # sort -o $OUTPUT_DIR/frags.txt $OUTPUT_DIR/frags.txt
 
 for i in 1 2 3 4 5 6; do
-  frag_to_env -i $OUTPUT_DIR/frags.txt -o $OUTPUT_DIR/r$i.txt -r $i -c $CPU -v
+  frag_to_env -i $OUTPUT_DIR/frags.txt -o $OUTPUT_DIR/r$i.txt -r $i -c $CPU -v #check
 #  sort -o $OUTPUT_DIR/r$i.txt $OUTPUT_DIR/r$i.txt
   sort $OUTPUT_DIR/r$i.txt | uniq -c > $OUTPUT_DIR/r${i}_c.txt
   env_to_db -i $OUTPUT_DIR/r${i}_c.txt -o $OUTPUT_DIR/fragments.db -r $i -c -v

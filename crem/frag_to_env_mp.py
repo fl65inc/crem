@@ -14,7 +14,12 @@ def process_line(line):
     # returns env_smi, core_smi, heavy_atoms_num, core_smarts
 
     output = []
-    smi, id, core, context = line.strip().split(',')
+    try:
+        #smi, id, core, context = line.strip().split(',') 
+        smi, id, core, context = line.strip().split('\t') #converted to /t in montai's fork, original one is , which is wrong in some cases
+    except Exception as e:
+        print('occurence of error in fragment process_line:')
+        print(e,line )
 
     if (not core and not context) or (_keep_mols and id not in _keep_mols):
         return output
@@ -33,8 +38,10 @@ def process_line(line):
                         if env and cores:
                             # for 1 cut cores will always contain 1 item
                             if not _store_comp_id:
+                                #output.append(f"{env}\t{cores[0]}\t{num_heavy_atoms}")
                                 output.append((env, cores[0], num_heavy_atoms))
                             else:
+                                #output.append(f"{env}\t{cores[0]}\t{num_heavy_atoms}\t{id}")
                                 output.append((env, cores[0], num_heavy_atoms, id))
             else:
                 sys.stderr.write('more than two fragments in context (%s) where core is empty' % context)
@@ -48,8 +55,10 @@ def process_line(line):
                 if env and cores:
                     for c in cores:
                         if not _store_comp_id:
+                            #output.append(f"{env}\t{c}\t{num_heavy_atoms}")
                             output.append((env, c, num_heavy_atoms))
                         else:
+                            #output.append(f"{env}\t{c}\t{num_heavy_atoms}\t{id}")
                             output.append((env, c, num_heavy_atoms, id))
         return output
 
@@ -109,7 +118,7 @@ def entry_point():
     parser.add_argument('-a', '--max_heavy_atoms', metavar='NUMBER', required=False, default=20,
                         help='maximum number of heavy atoms in cores. If the number of atoms exceeds the limit '
                              'fragment will be discarded. Default: 20.')
-    parser.add_argument('-s', '--keep_stereo', action='store_true', default=False,
+    parser.add_argument('-s', '--keep_stereo', action='store_true', default=True, #todo - converted to tRUE in montai's fork
                         help='set this flag if you want to keep stereo in context and core parts.')
     parser.add_argument('-c', '--ncpu', metavar='NUMBER', required=False, default=1,
                         help='number of cpus used for computation. Default: 1.')
